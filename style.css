@@ -1,5 +1,17 @@
 *,*::before,*::after {
     box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+body {
+    display: grid;
+    place-items: center;
+    margin-top: 10%;
+    gap: 1rem;
+}
+
+.title {
+    font-size: 1.5em;
 }
 
 .board-container {
@@ -16,6 +28,12 @@
     place-items: center;
 }
 
+.board-element:hover {
+    background-color: black;
+    color:white;
+    transition: 200ms;
+}
+
 .letter {
     font-size: 4rem;
     font-weight: bold;
@@ -26,3 +44,19 @@
 .reset {
     margin-top: 5%;
 }
+
+button {
+    padding: 1em;
+    border: 1.5px solid black;
+    background-color: white;
+    cursor: pointer;
+    transform: translate(0, -10px)
+}
+
+button:hover {
+    background-color: black;
+    transform: translate(0, -15px);
+    color: white;
+    transition: 200ms ease-in-out;
+}
+

@@ -1,53 +1,71 @@
+const boardContainer = document.querySelector('.board-container')
 const boardElements = document.querySelectorAll(".board-element");
 const resetBoardButton = document.querySelector(".reset");
+const div5 = document.getElementsByClassName("5")
+const boardElement = document.getElementById('#5')
 
-let gameBoard = [];
+let positionTracker = [];
+let turnTracker = 0
 
 function genereateNewBoard() {
-  for (i = 0; i < 9; i++) {
-    gameBoard.push(null);
-  }
-}
-
-boardElements.forEach((element) => {
-  element.addEventListener(
-    "click",
-    () => {
-      const letter = document.createElement("p");
-      letter.textContent = "x";
-      letter.classList.add("letter");
-      element.appendChild(letter);
-    },
-    { once: true }
-  );
-});
-
-resetBoardButton.addEventListener("click", () => {
-  genereateNewBoard();
+    positionTracker = [];
+    turnTracker = 0;
   boardElements.forEach((element) => {
     element.replaceChildren();
-    element.addEventListener(
-      "click",
-      () => {
+    element.onclick = () => {
         const letter = document.createElement("p");
-        letter.textContent = "x";
+        turnTracker % 2 === 0
+          ? (letter.textContent = "x")
+          : (letter.textContent = "o");
         letter.classList.add("letter");
         element.appendChild(letter);
+        positionTracker[element.id] = letter.textContent;
+        turnTracker++
+        determineWinner(positionTracker)
       },
       { once: true }
-    );
   });
-});
+}
+
+function determineWinner(positionTracker) {
+    if (positionTracker[0] === 'x' && positionTracker[1] === 'x' && positionTracker[2] === 'x' || 
+    positionTracker[3] === 'x' && positionTracker[4] === 'x' && positionTracker[5] === 'x' || 
+    positionTracker[6] === 'x' && positionTracker[7] === 'x' && positionTracker[8] === 'x' ||
+    positionTracker[0] === 'x' && positionTracker[3] === 'x' && positionTracker[6] === 'x' ||
+    positionTracker[1] === 'x' && positionTracker[4] === 'x' && positionTracker[7] === 'x' ||
+    positionTracker[2] === 'x' && positionTracker[5] === 'x' && positionTracker[8] === 'x' ||
+    positionTracker[0] === 'x' && positionTracker[4] === 'x' && positionTracker[9] === 'x' ||
+    positionTracker[2] === 'x' && positionTracker[4] === 'x' && positionTracker[6] === 'x') {
+        const winnerAnnouncement = document.createElement('p')
+        winnerAnnouncement.textContent = 'Yay! Player X has won.'
+        boardContainer.after(winnerAnnouncement)
+        boardElements.forEach(element => element.onclick = null)
+    } else if (positionTracker[0] === 'o' && positionTracker[1] === 'o' && positionTracker[2] === 'o' || 
+    positionTracker[3] === 'o' && positionTracker[4] === 'o' && positionTracker[5] === 'o' || 
+    positionTracker[6] === 'o' && positionTracker[7] === 'o' && positionTracker[8] === 'o' ||
+    positionTracker[0] === 'o' && positionTracker[3] === 'o' && positionTracker[6] === 'o' ||
+    positionTracker[1] === 'o' && positionTracker[4] === 'o' && positionTracker[7] === 'o' ||
+    positionTracker[2] === 'o' && positionTracker[5] === 'o' && positionTracker[8] === 'o' ||
+    positionTracker[0] === 'o' && positionTracker[4] === 'o' && positionTracker[9] === 'o' ||
+    positionTracker[2] === 'o' && positionTracker[4] === 'o' && positionTracker[6] === 'o') {
+        const winnerAnnouncement = document.createElement('p')
+        winnerAnnouncement.textContent = 'Yay! Player O has won.'
+        boardContainer.after(winnerAnnouncement)
+        boardElements.forEach(element => element.onclick = null)
+    } else if (turnTracker === 9) {
+        const drawAnnouncement = document.createElement('p')
+        drawAnnouncement.textContent = 'Tie game!'
+        boardContainer.after(drawAnnouncement)
+        boardElements.forEach(element => element.onclick = null)
+    }
+    
+}
+
+resetBoardButton.onclick = () => genereateNewBoard()
+
+genereateNewBoard();
+
 
 // user sets (inputs) player1.name / player2.name
-// player 1 chooses to place X or O on board
-// show gameBoard: 1 div container, 9 static divs, grid-template: repeat(3, 1fr) / repeat(3, 1fr)
-//  = each grid cell corresponds to index in array
-// player 1's turn: board.onclick = place X or O on board
-// board[board.indexOf(clickedCell)] = X
-// document.createElement('p').textContent='x'
-// classList.add('letter')
-// disable addEventListener for clicked cell
-// player 2's turn: board.onclick = place O or X on board
-// if gameBoard[1,2,3] || 1,5,9 || 1,4,7 || 2,5,8 || 3,6,9 || 3,5,7 === X or O
-// disable everything, display winner, display new game button
+// display new game button
+// keep score
