@@ -1,0 +1,28 @@
+*,*::before,*::after {
+    box-sizing: border-box;
+}
+
+.board-container {
+    display: grid;
+    width: min-content;
+    grid-template: repeat(3, 5rem) / repeat(3, 5rem);
+    border: 1px solid black;
+}
+
+.board-element {
+    border: 1px solid black;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+}
+
+.letter {
+    font-size: 4rem;
+    font-weight: bold;
+    margin-top: -5%;
+  
+}
+
+.reset {
+    margin-top: 5%;
+}
